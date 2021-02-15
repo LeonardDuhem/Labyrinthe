@@ -1,0 +1,35 @@
+import random
+
+laby = []
+
+
+def generate():
+
+    count = 0
+    while count != 100:
+        rand = random.randint(0, 1)
+        if count == 0 or count == 99:
+            laby.append("*")
+        else:
+            if rand == 0:
+                laby.append("X")
+            else:
+                laby.append("*")
+        count += 1
+
+
+
+
+
+
+
+def display():
+    count = 0
+    for i in laby:
+        if count%10 == 0:
+            print()
+        print(laby[count]+" ", end='')
+
+        count += 1
+generate()
+display()
