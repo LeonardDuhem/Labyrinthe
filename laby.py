@@ -89,7 +89,6 @@ def generate2():
         rand1 = random.randint(0, 4)
         rand2 = random.randint(0, 4)
 
-
         if laby[rand1][rand2] != "*":
             laby[rand1][rand2] = "*"
             stock1.append(rand1)
@@ -106,9 +105,6 @@ def generate2():
             stock1.append(rand2)
             i += 1
 
-
-
-
     i = 0
     while i != 2:                      #bas droite
         rand1 = random.randint(5, 9)
@@ -118,7 +114,6 @@ def generate2():
             stock1.append(rand1)
             stock1.append(rand2)
             i += 1
-
 
     i = 0
     while i != 2:                       #haut droit
@@ -135,7 +130,6 @@ def generate2():
     stock1.append(9)
     stock1.append(0)
 def generateLaby(b):
-
 
     laby[0][0] = "*"
     laby[9][0] = "*"
@@ -164,7 +158,6 @@ def generateLaby(b):
             x1 += 1
         count = y0
 
-
     if(y1 > y0):
 
         while y1 != count:
@@ -172,10 +165,8 @@ def generateLaby(b):
             y1-=1
     else:
         while y1 != count:
-
             laby[x1][y1] = "*"
             y1 += 1
-
 
     if b+2 <= 19:
 
