@@ -1,6 +1,6 @@
 import random
 from tkinter import *
-
+from Cparam import param
 laby = [["X","X","X","X","X","X","X","X","X","X"],
         ["X","X","X","X","X","X","X","X","X","X"],
         ["X","X","X","X","X","X","X","X","X","X"],
@@ -11,13 +11,44 @@ laby = [["X","X","X","X","X","X","X","X","X","X"],
         ["X","X","X","X","X","X","X","X","X","X"],
         ["X","X","X","X","X","X","X","X","X","X"],
         ["X","X","X","X","X","X","X","X","X","X"]]
-
+parametre = param()
 stock1 = []
 
 
+
+
+def menu():
+    menu = Tk()
+    menu.geometry(str(parametre.width)+'x'+str(parametre.height))
+    canv = Canvas(menu,width=parametre.width,height=parametre.height,bg='black')
+    canv.pack()
+    play = Button(canv,text='Play',width=20,height=3,bg='black',command=lambda:destroy(menu))
+    play.place(x=(parametre.width/2)-100,y=(parametre.height/2)-100)
+
+
+    btn_param = Button(canv,text="parametre")
+
+    btn_param.place(x=parametre.width-100,y=parametre.height-50)
+
+
+    menu.mainloop()
+def createCheckPoint():
+    rand1 = random.randint(0, 9)
+    rand2 = random.randint(5, 9)
+    if laby[rand1][rand2] == '*':
+        laby[rand1][rand2] = '+'
+    else:
+        return createCheckPoint()
+def createBonus():
+    rand1 = random.randint(0, 9)
+    rand2 = random.randint(5, 9)
+    if laby[rand1][rand2] == '*':
+        laby[rand1][rand2] = '='
+    else:
+        return createBonus()
 def fen():
     root = Tk()
-
+    root.geometry(str(parametre.width)+'x'+str(parametre.height))
 
     x= 0
     y=0
@@ -30,8 +61,10 @@ def fen():
             couleur = 'green'
         elif laby[labyX][labyY] == "X":
             couleur = 'red'
-        else:
+        elif laby[labyX][labyY] == "+":
             couleur = 'yellow'
+        else:
+            couleur = 'cyan'
         canvas2 = Canvas(root,bg =couleur,width=30, height=30)
         canvas2.place(x=x,y=y)
 
@@ -50,15 +83,6 @@ def fen():
 
 
     root.mainloop()
-
-
-
-
-
-
-
-
-
 def generate2():
     count = 0
     ligne = 0
@@ -70,6 +94,9 @@ def generate2():
 
     stock1.append(0)
     stock1.append(0)
+
+
+
     while i != 2:                       #carre haut gauche
 
         rand1 = random.randint(0, 4)
@@ -116,7 +143,7 @@ def generate2():
             stock1.append(rand2)
             i += 1
 
-   
+
 
     stock1.append(9)
     stock1.append(0)
@@ -165,8 +192,7 @@ def generateLaby(b):
 
     if b+2 <= 19:
 
-        generateLaby(b+2)
-
+        return generateLaby(b+2)
 def display():
     print("")
     print("-----------")
@@ -182,11 +208,18 @@ def display():
 
         ligne+=1
         count+=1
+def destroy(fenetre):
+    fenetre.destroy()
+    jeu()
+def jeu():
 
+    generate2()
+    generateLaby(2)
+    createCheckPoint()
+    createBonus()
+    fen()
 
+menu()
 
-
-generate2()
-generateLaby(2)
-display()
-fen()
+#display()
+#fen()
