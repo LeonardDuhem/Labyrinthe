@@ -1,5 +1,6 @@
 import random
 from tkinter import *
+
 from Cparam import param
 laby = [["X","X","X","X","X","X","X","X","X","X"],
         ["X","X","X","X","X","X","X","X","X","X"],
@@ -13,7 +14,7 @@ laby = [["X","X","X","X","X","X","X","X","X","X"],
         ["X","X","X","X","X","X","X","X","X","X"]]
 parametre = param()
 stock1 = []
-
+tabl_canvas = []
 
 
 
@@ -50,39 +51,25 @@ def fen():
     root = Tk()
     root.geometry(str(parametre.width)+'x'+str(parametre.height))
 
-    x= 0
-    y=0
-    labyX = 0
-    labyY = 0
 
-    while labyX != 10 and labyY != 10:
 
-        if laby[labyX][labyY] == "*":
-            couleur = 'green'
-        elif laby[labyX][labyY] == "X":
-            couleur = 'red'
-        elif laby[labyX][labyY] == "+":
-            couleur = 'yellow'
-        else:
-            couleur = 'cyan'
-        canvas2 = Canvas(root,bg =couleur,width=30, height=30)
-        canvas2.place(x=x,y=y)
+    generate2()
+    generateLaby(2)
 
-        x += 30
-        if x == 300:
-            x = 0
-            y += 30
-
-        labyX += 1
-        if labyX == 10:
-            labyY += 1
-            labyX = 0
+    refresh(root)
+    game = True
+    while(game):
 
 
 
 
 
-    root.mainloop()
+
+
+
+
+        root.mainloop()
+    return root
 def generate2():
     count = 0
     ligne = 0
@@ -217,9 +204,37 @@ def jeu():
     generateLaby(2)
     createCheckPoint()
     createBonus()
-    fen()
 
-menu()
+def refresh(fen):
+    x = 0
+    y = 0
+    labyX = 0
+    labyY = 0
 
-#display()
-#fen()
+    while labyX != 10 and labyY != 10:
+
+        if laby[labyX][labyY] == "*":
+            couleur = 'green'
+        elif laby[labyX][labyY] == "X":
+            couleur = 'red'
+        elif laby[labyX][labyY] == "+":
+            couleur = 'yellow'
+        else:
+            couleur = 'cyan'
+        canvas2 = Canvas(fen, bg=couleur, width=30, height=30)
+        tabl_canvas.append(canvas2)
+        canvas2.place(x=x, y=y)
+
+        x += 30
+        if x == 300:
+            x = 0
+            y += 30
+
+        labyX += 1
+        if labyX == 10:
+            labyY += 1
+            labyX = 0
+
+
+
+fen()
