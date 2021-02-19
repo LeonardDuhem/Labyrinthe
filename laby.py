@@ -12,11 +12,40 @@ laby = [["X","X","X","X","X","X","X","X","X","X"],
         ["X","X","X","X","X","X","X","X","X","X"],
         ["X","X","X","X","X","X","X","X","X","X"],
         ["X","X","X","X","X","X","X","X","X","X"]]
+
+
+
+
 parametre = param()
 stock1 = []
 tabl_canvas = []
 
 
+def push():
+    send = ''
+    couleur = ''
+    ligne = 0
+    colonne = 0
+    count = 0
+    while ligne != 10 and colonne != 10:
+
+        if laby[ligne][colonne] == "*":
+            couleur = 'green'
+        elif laby[ligne][colonne] == "X":
+            couleur = 'red'
+        elif laby[ligne][colonne] == "+":
+            couleur = 'yellow'
+        else:
+            couleur = 'cyan'
+
+        ligne += 1
+        if ligne == 10:
+            colonne += 1
+            ligne = 0
+
+        send = send + str(count) + ':' +couleur + ","
+        count += 1
+    print(send)
 
 def menu():
     menu = Tk()
@@ -55,10 +84,16 @@ def fen():
 
     generate2()
     generateLaby(2)
-
+    createCheckPoint()
+    push()
+    createBonus()
     refresh(root)
     game = True
+    timer = 300
+
+
     while(game):
+
 
 
 
@@ -204,7 +239,6 @@ def jeu():
     generateLaby(2)
     createCheckPoint()
     createBonus()
-
 def refresh(fen):
     x = 0
     y = 0
@@ -234,7 +268,5 @@ def refresh(fen):
         if labyX == 10:
             labyY += 1
             labyX = 0
-
-
 
 fen()
