@@ -2,7 +2,7 @@ import random
 import keyboard
 import time
 import jose as J
-
+import Bob as B
 
 laby = [["X","X","X","X","X","X","X","X","X","X"],
         ["X","X","X","X","X","X","X","X","X","X"],
@@ -18,7 +18,7 @@ laby = [["X","X","X","X","X","X","X","X","X","X"],
 
 
 Player1 = J.jose()
-
+Player2 = B.Bob()
 
 stock1 = []
 tabl_canvas = []
@@ -33,22 +33,24 @@ def push():
     while ligne != 10 and colonne != 10:
 
         if laby[ligne][colonne] == "*":
-            couleur = 'green'
+            couleur = '2' #green
         elif laby[ligne][colonne] == "X":
-            couleur = 'red'
+            couleur = '3' #red
         elif laby[ligne][colonne] == "+":
-            couleur = 'yellow'
+            couleur = '4' #yellow
         else:
-            couleur = 'cyan'
+            couleur = '5' #cyan
 
         ligne += 1
         if ligne == 10:
             colonne += 1
             ligne = 0
-
-        send = send + str(count) + ':' +couleur + ","
+        if ligne != 10 and colonne != 10:
+            send = send + couleur + ","
+        else:
+            send = send + couleur
         count += 1
-    print(send)
+    return send
 
 
 
@@ -72,8 +74,9 @@ def createBonus():
 
 def createCharacter():
     laby[0][0] = "H"
-
-
+    laby[9][0] = "F"
+    Player2.x = 9
+    Player2.y = 0
 
 
 
@@ -227,6 +230,8 @@ def jeu():
     while game == True:
         x1 = Player1.x
         y1 = Player1.y
+        x2 = Player2.x
+        y2 = Player2.y
         enter = input('')
 
         if enter == 'd':
@@ -273,7 +278,59 @@ def jeu():
             elif laby[x1][y1-1] == "+":
                 Player1.score+=1
                 return creation()
-        display()
 
+        if enter == 'm' and y2 < 9:
+
+            if laby[x2][y2+1] == "*":
+
+                laby[x2][y2+1] = "F"
+                laby[x2][y2] = "*"
+                Player2.x = x2
+                Player2.y = y2 + 1
+            elif laby[x2][y2 + 1] == "+":
+                Player2.score += 1
+                return creation()
+
+        if enter == 'l' and y2 < 9:
+
+            if laby[x2][y2+1] == "*":
+
+                laby[x2][y2+1] = "F"
+                laby[x2][y2] = "*"
+                Player2.x = x2
+                Player2.y = y2 + 1
+            elif laby[x2][y2 + 1] == "+":
+                Player2.score += 1
+                return creation()
+
+
+
+        if enter == 'k' and x2 > 0:
+            if laby[x2-1][y2] == "*":
+                laby[x2-1][y2] = "F"
+                laby[x2][y2] = "*"
+                Player2.x = x2-1
+                Player2.y = y2
+            elif laby[x2-1][y2] == "+":
+                Player2.score += 1
+                return creation()
+
+
+        if enter == 'o' and y2 > 0:
+            print('ici')
+            if laby[x2][y2-1] == "*":
+                laby[x2][y2-1] = "F"
+                laby[x2][y2] = "*"
+                Player2.x = x2
+                Player2.y = y2 -1
+            elif laby[x2][y2-1] == "+":
+                Player2.score+=1
+                return creation()
+
+
+
+
+        display()
+        print("le joueur 1 a:",Player1.score)
 
 creation()
