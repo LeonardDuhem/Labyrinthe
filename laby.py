@@ -1,7 +1,6 @@
 import random
-from tkinter import *
+import keyboard
 
-from Cparam import param
 laby = [["X","X","X","X","X","X","X","X","X","X"],
         ["X","X","X","X","X","X","X","X","X","X"],
         ["X","X","X","X","X","X","X","X","X","X"],
@@ -16,7 +15,8 @@ laby = [["X","X","X","X","X","X","X","X","X","X"],
 
 
 
-parametre = param()
+
+
 stock1 = []
 tabl_canvas = []
 
@@ -47,21 +47,8 @@ def push():
         count += 1
     print(send)
 
-def menu():
-    menu = Tk()
-    menu.geometry(str(parametre.width)+'x'+str(parametre.height))
-    canv = Canvas(menu,width=parametre.width,height=parametre.height,bg='black')
-    canv.pack()
-    play = Button(canv,text='Play',width=20,height=3,bg='black',command=lambda:destroy(menu))
-    play.place(x=(parametre.width/2)-100,y=(parametre.height/2)-100)
 
 
-    btn_param = Button(canv,text="parametre")
-
-    btn_param.place(x=parametre.width-100,y=parametre.height-50)
-
-
-    menu.mainloop()
 def createCheckPoint():
     rand1 = random.randint(0, 9)
     rand2 = random.randint(5, 9)
@@ -69,6 +56,9 @@ def createCheckPoint():
         laby[rand1][rand2] = '+'
     else:
         return createCheckPoint()
+
+
+
 def createBonus():
     rand1 = random.randint(0, 9)
     rand2 = random.randint(5, 9)
@@ -76,9 +66,12 @@ def createBonus():
         laby[rand1][rand2] = '='
     else:
         return createBonus()
+
+
+
 def fen():
-    root = Tk()
-    root.geometry(str(parametre.width)+'x'+str(parametre.height))
+
+
 
 
 
@@ -87,24 +80,12 @@ def fen():
     createCheckPoint()
     push()
     createBonus()
-    refresh(root)
+
     game = True
     timer = 300
 
 
-    while(game):
 
-
-
-
-
-
-
-
-
-
-        root.mainloop()
-    return root
 def generate2():
     count = 0
     ligne = 0
@@ -230,43 +211,14 @@ def display():
 
         ligne+=1
         count+=1
-def destroy(fenetre):
-    fenetre.destroy()
-    jeu()
+
 def jeu():
 
     generate2()
     generateLaby(2)
     createCheckPoint()
     createBonus()
-def refresh(fen):
-    x = 0
-    y = 0
-    labyX = 0
-    labyY = 0
 
-    while labyX != 10 and labyY != 10:
-
-        if laby[labyX][labyY] == "*":
-            couleur = 'green'
-        elif laby[labyX][labyY] == "X":
-            couleur = 'red'
-        elif laby[labyX][labyY] == "+":
-            couleur = 'yellow'
-        else:
-            couleur = 'cyan'
-        canvas2 = Canvas(fen, bg=couleur, width=30, height=30)
-        tabl_canvas.append(canvas2)
-        canvas2.place(x=x, y=y)
-
-        x += 30
-        if x == 300:
-            x = 0
-            y += 30
-
-        labyX += 1
-        if labyX == 10:
-            labyY += 1
-            labyX = 0
 
 fen()
+display()
