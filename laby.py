@@ -1,5 +1,6 @@
 import random
 import keyboard
+import time
 
 laby = [["X","X","X","X","X","X","X","X","X","X"],
         ["X","X","X","X","X","X","X","X","X","X"],
@@ -20,7 +21,7 @@ laby = [["X","X","X","X","X","X","X","X","X","X"],
 stock1 = []
 tabl_canvas = []
 
-
+#push = envoyer les infos a l'arduino
 def push():
     send = ''
     couleur = ''
@@ -67,22 +68,14 @@ def createBonus():
     else:
         return createBonus()
 
-
-
-def fen():
-
-
+def createCharacter():
+    laby[0][0] = "H"
 
 
 
-    generate2()
-    generateLaby(2)
-    createCheckPoint()
-    push()
-    createBonus()
 
-    game = True
-    timer = 300
+
+
 
 
 
@@ -150,6 +143,7 @@ def generate2():
 
     stock1.append(9)
     stock1.append(0)
+
 def generateLaby(b):
 
 
@@ -211,14 +205,59 @@ def display():
 
         ligne+=1
         count+=1
+    return
 
-def jeu():
+
+#met en place l'environnement de jeu
+def creation():
 
     generate2()
     generateLaby(2)
     createCheckPoint()
     createBonus()
+    createCharacter()
+    display()
+
+def jeu():
+    game = True
+    x1 = 0
+    y1 = 0
+    while game == True:
+
+        enter = input('')
+
+        if enter == 'd':
+            if laby[x1+1][y1] == "*" and y1 < 9:
+                laby[ x1+ 1 ][y1] = "H"
+                laby[x1][y1] = "*"
+                x1 = x1+1
+                y1 = y1
 
 
-fen()
-display()
+
+        if enter == 's' and y1 < 9:
+            if laby[x1][y1+1] == "*":
+                laby[x1][y1+1] = "H"
+                laby[x1][y1] = "*"
+                x1 = x1
+                y1 = y1 + 1
+
+        if enter == 'q' and x1 > 0:
+            if laby[x1-1][y1] == "*":
+                laby[x1-1][y1] = "H"
+                laby[x1][y1] = "*"
+                x1 = x1 - 1
+                y1 = y1
+
+        if enter == 'z' and y1 > 0:
+            if laby[x1][y1-1] == "*":
+                laby[x1][y1-1] = "H"
+                laby[x1][y1] = "*"
+                x1 = x1
+                y1 = y1 -1
+
+        display()
+
+
+creation()
+jeu()
