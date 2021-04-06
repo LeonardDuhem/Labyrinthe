@@ -8,3 +8,5 @@ class jose:
         self.bonus = False
         self.nomBonus = ''
         self.ultime = False  #crée une ligne/ une colonne vertical
+
+
