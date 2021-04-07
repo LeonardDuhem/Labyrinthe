@@ -1,6 +1,8 @@
 import random
 import keyboard
 import time
+import jose as J
+
 
 laby = [["X","X","X","X","X","X","X","X","X","X"],
         ["X","X","X","X","X","X","X","X","X","X"],
@@ -15,7 +17,7 @@ laby = [["X","X","X","X","X","X","X","X","X","X"],
 
 
 
-
+Player1 = J.jose()
 
 
 stock1 = []
@@ -208,47 +210,61 @@ def creation():
     createBonus()
     createCharacter()
     display()
+    jeu()
 
 def jeu():
     game = True
-    x1 = 0
-    y1 = 0
-    while game == True:
 
+    while game == True:
+        x1 = Player1.x
+        y1 = Player1.y
         enter = input('')
 
         if enter == 'd':
             if laby[x1+1][y1] == "*" and y1 < 9:
                 laby[ x1+ 1 ][y1] = "H"
                 laby[x1][y1] = "*"
-                x1 = x1+1
-                y1 = y1
+                Player1.x = x1+1
+                Player1.y = y1
+            elif laby[x1+1][y1] == "+":
+                Player1.score += 1
 
-
+                return creation()
 
         if enter == 's' and y1 < 9:
             if laby[x1][y1+1] == "*":
                 laby[x1][y1+1] = "H"
                 laby[x1][y1] = "*"
-                x1 = x1
-                y1 = y1 + 1
+                Player1.x = x1
+                Player1.y = y1 + 1
+            elif laby[x1][y1 + 1] == "+":
+                Player1.score += 1
+                return creation()
+
+
+
 
         if enter == 'q' and x1 > 0:
             if laby[x1-1][y1] == "*":
                 laby[x1-1][y1] = "H"
                 laby[x1][y1] = "*"
-                x1 = x1 - 1
-                y1 = y1
+                Player1.x = x1 - 1
+                Player1.y = y1
+            elif laby[x1-1][y1] == "+":
+                Player1.score += 1
+                return creation()
+
 
         if enter == 'z' and y1 > 0:
             if laby[x1][y1-1] == "*":
                 laby[x1][y1-1] = "H"
                 laby[x1][y1] = "*"
-                x1 = x1
-                y1 = y1 -1
-
+                Player1.x = x1
+                Player1.y = y1 -1
+            elif laby[x1][y1-1] == "+":
+                Player1.score+=1
+                return creation()
         display()
 
 
 creation()
-jeu()
