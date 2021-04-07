@@ -2,6 +2,7 @@ import random
 import keyboard
 import time
 import jose as J
+
 import Bob as B
 import Mirabelle as M
 
@@ -18,6 +19,28 @@ laby = [["X", "X", "X", "X", "X", "X", "X", "X", "X", "X"],
 
 Player1 = M.Mirabelle()
 Player2 = B.Bob()
+
+import selectClass as SC
+
+
+SC.ChooseClass()
+
+laby = [["X","X","X","X","X","X","X","X","X","X"],
+        ["X","X","X","X","X","X","X","X","X","X"],
+        ["X","X","X","X","X","X","X","X","X","X"],
+        ["X","X","X","X","X","X","X","X","X","X"],
+        ["X","X","X","X","X","X","X","X","X","X"],
+        ["X","X","X","X","X","X","X","X","X","X"],
+        ["X","X","X","X","X","X","X","X","X","X"],
+        ["X","X","X","X","X","X","X","X","X","X"],
+        ["X","X","X","X","X","X","X","X","X","X"],
+        ["X","X","X","X","X","X","X","X","X","X"]]
+
+
+
+Player1 = J.jose()
+
+
 
 stock1 = []
 tabl_canvas = []
@@ -136,7 +159,11 @@ def generate2():
     stock1.append(0)
 
 
+
+
 def generateLaby(b):
+
+
     laby[0][0] = "*"
     laby[9][0] = "*"
 
@@ -162,7 +189,11 @@ def generateLaby(b):
             x1 += 1
         count = y0
 
-    if (y1 > y0):
+
+
+
+    if(y1 > y0):
+
 
         while y1 != count:
             laby[x1][y1] = "*"
@@ -172,8 +203,10 @@ def generateLaby(b):
             laby[x1][y1] = "*"
             y1 += 1
 
+
     if b + 2 <= 19:
         return generateLaby(b + 2)
+
 
 
 def display():
