@@ -2,7 +2,10 @@ import random
 import keyboard
 import time
 import jose as J
+import selectClass as SC
 
+
+SC.ChooseClass()
 
 laby = [["X","X","X","X","X","X","X","X","X","X"],
         ["X","X","X","X","X","X","X","X","X","X"],
