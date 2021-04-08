@@ -1,10 +1,8 @@
 import random
 import keyboard
 import time
-import jose as J
 
-import Bob as B
-import Mirabelle as M
+import Character as C
 
 laby = [["X", "X", "X", "X", "X", "X", "X", "X", "X", "X"],
         ["X", "X", "X", "X", "X", "X", "X", "X", "X", "X"],
@@ -17,13 +15,8 @@ laby = [["X", "X", "X", "X", "X", "X", "X", "X", "X", "X"],
         ["X", "X", "X", "X", "X", "X", "X", "X", "X", "X"],
         ["X", "X", "X", "X", "X", "X", "X", "X", "X", "X"]]
 
-Player1 = M.Mirabelle()
-Player2 = B.Bob()
-
-import selectClass as SC
 
 
-SC.ChooseClass()
 
 laby = [["X","X","X","X","X","X","X","X","X","X"],
         ["X","X","X","X","X","X","X","X","X","X"],
@@ -38,12 +31,34 @@ laby = [["X","X","X","X","X","X","X","X","X","X"],
 
 
 
-Player1 = J.jose()
+
 
 
 
 stock1 = []
 tabl_canvas = []
+
+def ChooseClass(player):
+
+    print('\33[1m' +"Bienvenue, joueur",player, '\33[0m')
+    print('\33[35m' +"Tu as le choix entre 3 classes"+ '\33[0m')
+    print("1: Bob. Pouvoir: ...")
+    print("2: José. Pouvoir: ...")
+    print("3: Mirabelle. Pouvoir: ...")
+
+    input1 = input()
+
+    if(input1 == "1"):
+        print("vous avez choisi la classe Bob")
+        return C.Character("Bob")
+    elif (input1 == "2"):
+        print("vous avez choisi la classe José")
+        return C.Character("Jose")
+    elif (input1 == "3"):
+        print("vous avez choisi la classe Mirabelle")
+        return C.Character("Mirabelle")
+
+
 
 
 # push = envoyer les infos a l'arduino
@@ -95,11 +110,13 @@ def createBonus():
 
 
 def createCharacter():
+
+
     laby[0][0] = Player1.skin
     laby[9][0] = Player2.skin
     Player2.x = 9
     Player2.y = 0
-    Player1.test()
+
 
 
 def generate2():
@@ -237,7 +254,7 @@ def creation():
     display()
     jeu()
 
-def finDePartie():
+def finDePartie(player):
     creation()
     Player1.pourcentage += 10
     Player2.pourcentage += 10
@@ -250,66 +267,20 @@ def jeu():
         x2 = Player2.x
         y2 = Player2.y
         enter = input('')
+        P1 = False
+        P2 = False
 
-        if enter == 'd':
-            if laby[x1 + 1][y1] == "*" and x1 < 9:
-                laby[x1 + 1][y1] = Player1.skin
-                laby[x1][y1] = "*"
-                Player1.x = x1 + 1
-                Player1.y = y1
-            elif laby[x1 + 1][y1] == "+":
-                Player1.score += 1
-                return finDePartie()
-            elif laby[x1 + 1][y1] == "=":
-                laby[x1 + 1][y1] = Player1.skin
-                laby[x1][y1] = "*"
-                Player1.x = x1 + 1
-                Player1.y = y1
-                Player1.pourcentage+=20
+        if enter == 'd' and x1 < 9:
+            P1 = Player1.move_right(laby)
 
         if enter == 's' and y1 < 9:
-            if laby[x1][y1 + 1] == "*":
-                laby[x1][y1 + 1] = Player1.skin
-                laby[x1][y1] = "*"
-                Player1.x = x1
-                Player1.y = y1 + 1
-            elif laby[x1][y1 + 1] == "+":
-                Player1.score += 1
-                return finDePartie()
-            elif laby[x1][y1+1] == "=":
-                laby[x1][y1 + 1] = Player1.skin
-                laby[x1][y1] = "*"
-                Player1.x = x1
-                Player1.y = y1 + 1
-                Player1.pourcentage+=20
+            P1 = Player1.move_bottom(laby)
 
         if enter == 'q' and x1 > 0:
-            if laby[x1 - 1][y1] == "*":
-                laby[x1][y1 + 1] = Player1.skin
-                laby[x1][y1] = "*"
-                Player1.x = x1 - 1
-                Player1.y = y1
-            elif laby[x1 - 1][y1] == "+":
-                Player1.score += 1
-                return finDePartie()
-            elif laby[x1 -1][y1] == "=":
-                laby[x1][y1 + 1] = Player1.skin
-                laby[x1][y1] = "*"
-                Player1.pourcentage+=20
+            P1 = Player1.move_left(laby)
 
         if enter == 'z' and y1 > 0:
-            if laby[x1][y1 - 1] == "*":
-                laby[x1][y1 - 1] = Player1.skin
-                laby[x1][y1] = "*"
-                Player1.x = x1
-                Player1.y = y1 - 1
-            elif laby[x1][y1 - 1] == "+":
-                Player1.score += 1
-                return finDePartie()
-            elif laby[x1][y1-1] == "=":
-                laby[x1][y1 - 1] = Player1.skin
-                laby[x1][y1] = "*"
-                Player1.pourcentage+=20
+            P1 = Player1.move_top(laby)
 
         if enter == "r":
             if Player1.name == "Mirabelle":
@@ -318,69 +289,27 @@ def jeu():
 
         if enter == 'm' and x2 < 9:
 
-            if laby[x2 + 1][y2] == "*":
-
-                laby[x2 + 1][y2] = Player2.skin
-                laby[x2][y2] = "*"
-                Player2.x = x2 + 1
-                Player2.y = y2
-            elif laby[x2 + 1][y2] == "+":
-                Player2.score += 1
-                return finDePartie()
-            elif laby[x1+1][y1] == "=":
-                laby[x2 + 1][y2] = Player2.skin
-                laby[x2][y2] = "*"
-                Player2.pourcentage+=20
+            P2 = Player2.move_right(laby)
 
         if enter == 'l' and y2 < 9:
 
-            if laby[x2][y2 + 1] == "*":
-
-                laby[x2][y2 + 1] = Player2.skin
-                laby[x2][y2] = "*"
-                Player2.x = x2
-                Player2.y = y2 + 1
-            elif laby[x2][y2 + 1] == "+":
-                Player2.score += 1
-                return finDePartie()
-            elif laby[x1][y1+1] == "=":
-                laby[x2 ][y2+1] = Player2.skin
-                laby[x2][y2] = "*"
-                Player2.pourcentage+=20
+            P2 = Player2.move_bottom(laby)
 
 
         if enter == 'k' and x2 > 0:
-            if laby[x2 - 1][y2] == "*":
-                laby[x2 - 1][y2] = Player2.skin
-                laby[x2][y2] = "*"
-                Player2.x = x2 - 1
-                Player2.y = y2
-            elif laby[x2 - 1][y2] == "+":
-                Player2.score += 1
-                return finDePartie()
-            elif laby[x1-1][y1] == "=":
-                laby[x2 - 1][y2] = Player2.skin
-                laby[x2][y2] = "*"
-                Player2.pourcentage+=20
+            P2 = Player2.move_left(laby)
 
         if enter == 'o' and y2 > 0:
-            print('ici')
-            if laby[x2][y2 - 1] == "*":
-                laby[x2][y2 - 1] = Player2.skin
-                laby[x2][y2] = "*"
-                Player2.x = x2
-                Player2.y = y2 - 1
-            elif laby[x2][y2 - 1] == "+":
-                Player2.score += 1
-                return finDePartie()
-            elif laby[x1][y1-1] == "=":
-                laby[x2][y2 - 1] = Player2.skin
-                laby[x2][y2] = "*"
-                Player2.pourcentage+=20
+            P2 = Player2.move_top(laby)
 
         display()
+        if P1 == True:
+            finDePartie(1)
+        elif P2 == True:
+            finDePartie(2)
         print("le joueur 1 a:", Player1.score," et son ultime est chargé a: ",Player1.pourcentage,"%")
         print("le joueur 2 a:", Player2.score," et son ultime est chargé a: ",Player2.pourcentage,"%")
 
-
+Player1 = ChooseClass(1)
+Player2 = ChooseClass(2)
 creation()
