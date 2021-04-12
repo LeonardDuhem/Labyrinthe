@@ -1,8 +1,14 @@
 import random
 import keyboard
-import time
+
 
 import Character as C
+
+
+
+
+
+
 
 laby = [["X", "X", "X", "X", "X", "X", "X", "X", "X", "X"],
         ["X", "X", "X", "X", "X", "X", "X", "X", "X", "X"],
@@ -42,21 +48,21 @@ def ChooseClass(player):
 
     print('\33[1m' +"Bienvenue, joueur",player, '\33[0m')
     print('\33[35m' +"Tu as le choix entre 3 classes"+ '\33[0m')
-    print("1: Bob. Pouvoir: ...")
-    print("2: José. Pouvoir: ...")
-    print("3: Mirabelle. Pouvoir: ...")
+    print("1: Bob. Pouvoir: inverse les touches de l'adversaire")
+    print("2: José. Pouvoir: construit un mur sur la ligne au dessus de lui pour bloquer son adversaire")
+    print("3: Mirabelle. Pouvoir: téléporte l'ennemie sur une case aléatoire")
 
     input1 = input()
 
     if(input1 == "1"):
         print("vous avez choisi la classe Bob")
-        return C.Character("Bob")
+        return "Bob"
     elif (input1 == "2"):
         print("vous avez choisi la classe José")
-        return C.Character("Jose")
+        return "Jose"
     elif (input1 == "3"):
         print("vous avez choisi la classe Mirabelle")
-        return C.Character("Mirabelle")
+        return "Mirabelle"
 
 
 
@@ -114,15 +120,14 @@ def createCharacter():
 
     laby[0][0] = Player1.skin
     laby[9][0] = Player2.skin
+    Player1.x = 0
+    Player1.y = 0
     Player2.x = 9
     Player2.y = 0
 
 
 
 def generate2():
-    count = 0
-    ligne = 0
-    colonne = 0
 
     laby[0][0] = "O"
     laby[9][0] = "O"
@@ -255,9 +260,11 @@ def creation():
     jeu()
 
 def finDePartie(player):
+
+    Player1.addPercent(10)
+    Player2.addPercent(10)
     creation()
-    Player1.pourcentage += 10
-    Player2.pourcentage += 10
+
 def jeu():
     game = True
 
@@ -270,39 +277,42 @@ def jeu():
         P1 = False
         P2 = False
 
-        if enter == 'd' and x1 < 9:
+        if enter == Player1.droite and x1 < 9:
             P1 = Player1.move_right(laby)
 
-        if enter == 's' and y1 < 9:
+        if enter == Player1.bas and y1 < 9:
             P1 = Player1.move_bottom(laby)
 
-        if enter == 'q' and x1 > 0:
+        if enter == Player1.gauche and x1 > 0:
             P1 = Player1.move_left(laby)
 
-        if enter == 'z' and y1 > 0:
+        if enter == Player1.haut and y1 > 0:
             P1 = Player1.move_top(laby)
 
         if enter == "r":
-            if Player1.name == "Mirabelle":
-                Player1.use_ultime(laby, Player2)
+            Player1.use_ultime(laby, Player2)
 
 
-        if enter == 'm' and x2 < 9:
+        if enter == Player2.droite and x2 < 9:
 
             P2 = Player2.move_right(laby)
 
-        if enter == 'l' and y2 < 9:
+        if enter == Player2.bas and y2 < 9:
 
             P2 = Player2.move_bottom(laby)
 
 
-        if enter == 'k' and x2 > 0:
+        if enter == Player2.gauche and x2 > 0:
             P2 = Player2.move_left(laby)
 
-        if enter == 'o' and y2 > 0:
+        if enter == Player2.haut and y2 > 0:
             P2 = Player2.move_top(laby)
 
+        if enter == "u":
+            Player2.use_ultime(laby,Player1)
+
         display()
+
         if P1 == True:
             finDePartie(1)
         elif P2 == True:
@@ -310,6 +320,6 @@ def jeu():
         print("le joueur 1 a:", Player1.score," et son ultime est chargé a: ",Player1.pourcentage,"%")
         print("le joueur 2 a:", Player2.score," et son ultime est chargé a: ",Player2.pourcentage,"%")
 
-Player1 = ChooseClass(1)
-Player2 = ChooseClass(2)
+Player1 = C.Character(ChooseClass(1),"z","d","q","s")
+Player2 = C.Character(ChooseClass(2),"o","m","k","l")
 creation()
