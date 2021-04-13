@@ -334,8 +334,9 @@ def jeu(key):
     if enter.find("u") > 0:
         Player2.use_ultime(laby,Player1)
 
-    display() 
-    push()
+    display()
+    data = push()
+    arduino.write(data.encode())
 
     if P1 == True:
         finDePartie(1)
