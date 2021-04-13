@@ -1,6 +1,6 @@
 import random
 import keyboard
-
+from pynput.keyboard import Key, Listener
 
 import Character as C
 
@@ -82,8 +82,16 @@ def push():
             couleur = '3'  # red
         elif laby[ligne][colonne] == "+":
             couleur = '4'  # yellow
-        else:
+        elif laby[ligne][colonne] == "=":
             couleur = '5'  # cyan
+        elif laby[ligne][colonne] == "+":
+            couleur = '6'  #orange
+        elif laby[ligne][colonne] == "H":
+            couleur = '7'  #violet
+        elif laby[ligne][colonne] == "P":
+            couleur = '8'  #rose
+        elif laby[ligne][colonne] == "V":
+            couleur = '9'  #bleu foncé
 
         ligne += 1
         if ligne == 10:
@@ -257,69 +265,98 @@ def creation():
     createBonus()
     createCharacter()
     display()
-    jeu()
+    jeu("c")
 
 def finDePartie(player):
 
     Player1.addPercent(10)
     Player2.addPercent(10)
-    creation()
+    Player1.backup_touche()
+    Player2.backup_touche()
 
-def jeu():
+    if Player1.score == 10:
+        print("GAME OVER le joueur 1 a gagné bien joué!")
+    elif Player2.score == 10:
+        print("GAME OVER le joueur 2 a gagné bien joué!")
+    else:
+        creation()
+
+def jeu(key):
     game = True
 
-    while game == True:
-        x1 = Player1.x
-        y1 = Player1.y
-        x2 = Player2.x
-        y2 = Player2.y
-        enter = input('')
-        P1 = False
-        P2 = False
 
-        if enter == Player1.droite and x1 < 9:
-            P1 = Player1.move_right(laby)
-
-        if enter == Player1.bas and y1 < 9:
-            P1 = Player1.move_bottom(laby)
-
-        if enter == Player1.gauche and x1 > 0:
-            P1 = Player1.move_left(laby)
-
-        if enter == Player1.haut and y1 > 0:
-            P1 = Player1.move_top(laby)
-
-        if enter == "r":
-            Player1.use_ultime(laby, Player2)
+    x1 = Player1.x
+    y1 = Player1.y
+    x2 = Player2.x
+    y2 = Player2.y
+    enter = str(key)
 
 
-        if enter == Player2.droite and x2 < 9:
 
-            P2 = Player2.move_right(laby)
-
-        if enter == Player2.bas and y2 < 9:
-
-            P2 = Player2.move_bottom(laby)
+    P1 = False
+    P2 = False
 
 
-        if enter == Player2.gauche and x2 > 0:
-            P2 = Player2.move_left(laby)
 
-        if enter == Player2.haut and y2 > 0:
-            P2 = Player2.move_top(laby)
 
-        if enter == "u":
-            Player2.use_ultime(laby,Player1)
+    if enter.find(Player1.droite) > 0 and x1 < 9:
+        print("ici")
+        P1 = Player1.move_right(laby)
 
-        display()
+    if enter.find(Player1.bas) > 0 and y1 < 9:
+        P1 = Player1.move_bottom(laby)
 
-        if P1 == True:
-            finDePartie(1)
-        elif P2 == True:
-            finDePartie(2)
-        print("le joueur 1 a:", Player1.score," et son ultime est chargé a: ",Player1.pourcentage,"%")
-        print("le joueur 2 a:", Player2.score," et son ultime est chargé a: ",Player2.pourcentage,"%")
+    if enter.find(Player1.gauche) > 0 and x1 > 0:
+        P1 = Player1.move_left(laby)
+
+    if enter.find(Player1.haut) > 0 and y1 > 0:
+        P1 = Player1.move_top(laby)
+
+    if enter.find("r") > 0:
+        Player1.use_ultime(laby, Player2)
+
+
+    if enter.find(Player2.droite) > 0 and x2 < 9:
+
+        P2 = Player2.move_right(laby)
+
+    if enter.find(Player2.bas) > 0 and y2 < 9:
+
+        P2 = Player2.move_bottom(laby)
+
+
+    if enter.find(Player2.gauche) > 0 and x2 > 0:
+        P2 = Player2.move_left(laby)
+
+    if enter.find(Player2.haut) >0 and y2 > 0:
+        P2 = Player2.move_top(laby)
+
+    if enter.find("u") > 0:
+        Player2.use_ultime(laby,Player1)
+
+    display() 
+    push()
+
+    if P1 == True:
+        finDePartie(1)
+    elif P2 == True:
+        finDePartie(2)
+    print("le joueur 1 a:", Player1.score," et son ultime est chargé a: ",Player1.pourcentage,"%")
+    print("le joueur 2 a:", Player2.score," et son ultime est chargé a: ",Player2.pourcentage,"%")
 
 Player1 = C.Character(ChooseClass(1),"z","d","q","s")
 Player2 = C.Character(ChooseClass(2),"o","m","k","l")
 creation()
+
+
+def show(key):
+    print('\nYou Entered {0}'.format(key))
+
+    if key == Key.delete:
+        # Stop listener
+        return False
+
+
+# Collect all event until released
+with Listener(on_press=jeu) as listener:
+    listener.join()

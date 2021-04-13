@@ -4,6 +4,7 @@ import datetime
 class Character:
 
     def __init__(self,name,haut,droite,gauche,bas):
+        self.touche = [haut,bas,droite,gauche]
         self.haut = haut
         self.droite = droite
         self.gauche = gauche
@@ -163,4 +164,9 @@ class Character:
             self.addPercent(20)
 
 
+    def backup_touche(self):
+        self.haut = self.touche[0]
+        self.bas = self.touche[1]
+        self.droite = self.touche[2]
+        self.gauche = self.touche[3]
 
