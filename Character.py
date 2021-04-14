@@ -1,5 +1,7 @@
 import random
 import datetime
+from laby2 import push
+
 
 class Character:
 
@@ -56,7 +58,9 @@ class Character:
             rand2 = random.randint(0, 9)
             i = laby[rand1][rand2]
         laby[rand1][rand2] = ennemie.skin
+        push(rand1,rand2)
         laby[ennemie.x][ennemie.y] = "*"
+        push(ennemie.x,ennemie.y)
         ennemie.x = rand1
         ennemie.y = rand2
         self.pourcentage = 100
@@ -68,6 +72,7 @@ class Character:
                 print()
             else:
                 laby[i][y-1] = "X"
+                push(i,y-1)
         self.pourcentage = 0
 
     def B_ult(self,ennemie):
@@ -102,6 +107,7 @@ class Character:
         if laby[self.x][self.y + 1] == "*":
             laby[self.x][self.y + 1] = self.skin
             laby[self.x][self.y] = "*"
+
             self.x = self.x
             self.y = self.y + 1
         elif laby[self.x][self.y + 1] == "+":
@@ -110,10 +116,11 @@ class Character:
         elif laby[self.x][self.y + 1] == "=":
             laby[self.x][self.y + 1] = self.skin
             laby[self.x][self.y] = "*"
+
             self.x = self.x
             self.y = self.y + 1
             self.addPercent(20)
-
+        push(self.x, self.y)
 
     def move_right(self,laby):
 
@@ -131,7 +138,7 @@ class Character:
             self.x = self.x + 1
             self.y = self.y
             self.addPercent(20)
-
+        push(self.x, self.y)
     def move_left(self,laby):
 
 
@@ -147,6 +154,7 @@ class Character:
             laby[self.x-1][self.y] = self.skin
             laby[self.x][self.y] = "*"
             self.addPercent(20)
+        push(self.x, self.y)
 
     def move_top(self,laby):
 
@@ -162,6 +170,8 @@ class Character:
             laby[self.x][self.y - 1] = self.skin
             laby[self.x][self.y] = "*"
             self.addPercent(20)
+
+        push(self.x, self.y)
 
 
     def backup_touche(self):
