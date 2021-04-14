@@ -127,46 +127,7 @@ def push(ligne, colonne):
     count += 1
     return send
 
-def push():
-    send = ''
-    couleur = ''
-    ligne = 0
-    colonne = 0
-    count = 0
 
-    while ligne != 10 and colonne != 10:
-
-        if laby[ligne][colonne] == "*":
-            couleur = '2'  # green
-        elif laby[ligne][colonne] == "X":
-            couleur = '3'  # red
-        elif laby[ligne][colonne] == "+":
-            couleur = '4'  # yellow
-        elif laby[ligne][colonne] == "=":
-            couleur = '5'  # cyan
-        elif laby[ligne][colonne] == "+":
-            couleur = '6'  #orange
-        elif laby[ligne][colonne] == "H":
-            couleur = '7'  #violet
-        elif laby[ligne][colonne] == "P":
-            couleur = '8'  #rose
-        elif laby[ligne][colonne] == "V":
-            couleur = '9'  #bleu foncé
-
-        ligne += 1
-
-        if ligne == 10:
-            colonne += 1
-            ligne = 0
-        if ligne != 10 and colonne != 10:
-            led = str(ligne) + str(colonne)
-
-            send = led + "," + couleur
-            print(send)
-        else:
-            send = led + couleur
-        count += 1
-    return send
 
 
 def createCheckPoint():
