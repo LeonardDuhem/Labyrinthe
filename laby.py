@@ -3,10 +3,11 @@ import random
 from pynput.keyboard import Key, Listener
 
 import Character as C
+import pygame
+# pygame.mixer.init()
 
-
-
-
+# music = pygame.mixer.music.load('ChelouMaisCaPasse.wav')
+# pygame.mixer.music.play(-1)
 
 
 
@@ -36,7 +37,6 @@ stock1 = []
 tabl_canvas = []
 
 def ChooseClass(player):
-
     print('\33[1m' +"Bienvenue, joueur",player, '\33[0m')
     print('\33[35m' +"Tu as le choix entre 3 classes"+ '\33[0m')
     print("1: Bob. Pouvoir: inverse les touches de l'adversaire")
@@ -54,6 +54,7 @@ def ChooseClass(player):
     elif (input1 == "3"):
         print("vous avez choisi la classe Mirabelle")
         return "Mirabelle"
+    pygame.mixer.music.stop(-1)
 
 
 

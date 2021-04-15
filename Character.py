@@ -1,8 +1,6 @@
 import random
 import datetime
-
-
-
+import pygame
 class Character:
 
     def __init__(self,name,haut,droite,gauche,bas):
@@ -30,6 +28,8 @@ class Character:
     def addPercent(self,percent):
         if self.pourcentage+percent >= 100:
             self.pourcentage = 100
+            ultiSound = pygame.mixer.music.load('ulti.wav')
+            pygame.mixer.music.play()
         else:
          self.pourcentage = self.pourcentage+percent
 
